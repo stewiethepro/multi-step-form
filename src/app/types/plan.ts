@@ -1,6 +1,6 @@
-export type TypeOfPlan = 'monthly' | 'yearly';
+export type TypeOfplan = 'monthly' | 'yearly';
 
-export type PlanWithPrices = {
+export type planWithPrices = {
   name: string;
   price: {
     monthly: number;

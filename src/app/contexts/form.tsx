@@ -2,7 +2,7 @@ import { createContext, useEffect, useReducer, useState } from 'react';
 import { useLocalStorage } from '../hooks/use-local-storage';
 
 type Field = {
-  value: string;
+  value: string | string[];
   hasError: boolean;
   errorMessage: string;
 }
@@ -14,34 +14,26 @@ const initialState = {
 }
 
 type FormContextData = {
-  nameField: Field;
-  dispatchNameField: React.Dispatch<any>;
-  emailField: Field;
-  dispatchEmailField: React.Dispatch<any>;
-  phoneNumberField: Field;
-  dispatchPhoneNumberField: React.Dispatch<any>;
-  isYearly: boolean;
-  setIsYearly: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedPlan: Plan;
-  setSelectedPlan: React.Dispatch<React.SetStateAction<Plan>>;
-  addOns: { title: string, description: string, price: number }[];
-  setAddOns: React.Dispatch<React.SetStateAction<{ title: string; description: string; price: number; }[]>>;
+  brandField: Field;
+  dispatchBrandField: React.Dispatch<any>;
+  statesField: Field;
+  dispatchStatesField: React.Dispatch<any>;
+  dmasField: Field;
+  dispatchDMAsField: React.Dispatch<any>;
+  sampleField: Field;
+  dispatchSampleField: React.Dispatch<any>;
   clearForm: () => void;
 }
 
 export const FormContext = createContext({
-  nameField: initialState,
-  dispatchNameField: () => {},
-  emailField: initialState,
-  dispatchEmailField: () => {},
-  phoneNumberField: initialState,
-  dispatchPhoneNumberField: () => {},
-  isYearly: false,
-  setIsYearly: () => {},
-  selectedPlan: null as any,
-  setSelectedPlan: () => {},
-  addOns: [],
-  setAddOns: () => {},
+  brandField: initialState,
+  dispatchBrandField: () => {},
+  statesField: { ...initialState, value: [] },
+  dispatchStatesField: () => {},
+  dmasField: { ...initialState, value: [] },
+  dispatchDMAsField: () => {},
+  sampleField: initialState,
+  dispatchSampleField: () => {},
   clearForm: () => {}
 } as FormContextData);
 
@@ -90,66 +82,34 @@ interface FormProviderProps {
 }
 
 export const FormProvider = ({ children }: FormProviderProps) => {
-  // Your Info
-  const [nameField, dispatchNameField] = useReducer(handleFormState, initialState)
-  const [emailField, dispatchEmailField] = useReducer(handleFormState, initialState)
-  const [phoneNumberField, dispatchPhoneNumberField] = useReducer(handleFormState, initialState)
+  const [brandField, dispatchBrandField] = useReducer(handleFormState, initialState);
+  const [statesField, dispatchStatesField] = useReducer(handleFormState, { ...initialState, value: [] });
+  const [dmasField, dispatchDMAsField] = useReducer(handleFormState, { ...initialState, value: [] });
+  const [sampleField, dispatchSampleField] = useReducer(handleFormState, initialState);
 
-  // Plan
-  const [isYearly, setIsYearly] = useState<boolean>(false);
-  const [selectedPlan, setSelectedPlan] = useState<Plan>(null as any);
-
-  // Add Ons
-  const [addOns, setAddOns] = useState<{ title: string, description: string, price: number }[]>([]);
-
-  const { getValueFromLocalStorage, removeValueFromLocalStorage } = useLocalStorage()
+  const { removeValueFromLocalStorage } = useLocalStorage();
 
   function clearForm() {
-    removeValueFromLocalStorage('your-info')
-    removeValueFromLocalStorage('plan')
-    removeValueFromLocalStorage('add-ons')
+    removeValueFromLocalStorage('brand');
+    removeValueFromLocalStorage('states');
+    removeValueFromLocalStorage('dmas');
+    removeValueFromLocalStorage('sample');
 
-    dispatchNameField({ type: ACTIONS.SET_VALUE, value: '' })
-    dispatchEmailField({ type: ACTIONS.SET_VALUE, value: '' })
-    dispatchPhoneNumberField({ type: ACTIONS.SET_VALUE, value: '' })
-    setIsYearly(false)
-    setSelectedPlan(null as any)
-    setAddOns([])
+    dispatchBrandField({ type: ACTIONS.SET_VALUE, value: '' });
+    dispatchStatesField({ type: ACTIONS.SET_VALUE, value: [] });
+    dispatchDMAsField({ type: ACTIONS.SET_VALUE, value: [] });
+    dispatchSampleField({ type: ACTIONS.SET_VALUE, value: '' });
   }
 
-  useEffect(() => {
-    const yourInfoFromLocalStorage = getValueFromLocalStorage('your-info')
-    if (yourInfoFromLocalStorage) {
-      dispatchNameField({ type: ACTIONS.SET_VALUE, value: yourInfoFromLocalStorage.name })
-      dispatchEmailField({ type: ACTIONS.SET_VALUE, value: yourInfoFromLocalStorage.email })
-      dispatchPhoneNumberField({ type: ACTIONS.SET_VALUE, value: yourInfoFromLocalStorage.phoneNumber })
-    }
-
-    const planFromLocalStorage = getValueFromLocalStorage('plan')
-    if (planFromLocalStorage) {
-      setSelectedPlan(planFromLocalStorage.name)
-      setIsYearly(planFromLocalStorage.isYearly)
-    }
-
-    const addOnsFromLocalStorage = getValueFromLocalStorage('add-ons')
-    if (addOnsFromLocalStorage) {
-      setAddOns(addOnsFromLocalStorage)
-    }
-  }, [])
-
   const value = {
-    nameField,
-    dispatchNameField,
-    emailField,
-    dispatchEmailField,
-    phoneNumberField,
-    dispatchPhoneNumberField,
-    isYearly,
-    setIsYearly,
-    selectedPlan,
-    setSelectedPlan,
-    addOns,
-    setAddOns,
+    brandField,
+    dispatchBrandField,
+    statesField,
+    dispatchStatesField,
+    dmasField,
+    dispatchDMAsField,
+    sampleField,
+    dispatchSampleField,
     clearForm
   }
 
@@ -158,4 +118,4 @@ export const FormProvider = ({ children }: FormProviderProps) => {
       {children}
     </FormContext.Provider>
   );
-};
+}

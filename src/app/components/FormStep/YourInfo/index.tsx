@@ -15,10 +15,6 @@ export function YourInfo() {
   const {
     nameField,
     dispatchNameField,
-    emailField,
-    dispatchEmailField,
-    phoneNumberField,
-    dispatchPhoneNumberField
   } = useForm()
 
   const { handleNextStep, handlePreviousStep } = useFormStep()

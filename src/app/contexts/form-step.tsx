@@ -24,10 +24,10 @@ interface FormStepProviderProps {
 export const FormStepProvider = ({ children }: FormStepProviderProps) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [steps, _] = useState([
-    { title: 'Your info', number: 1 },
-    { title: 'Select plan', number: 2 },
-    { title: 'ADD-ONS', number: 3 },
-    { title: 'Summary', number: 4 },
+    { title: 'Brand', number: 1 },
+    { title: 'States', number: 2 },
+    { title: 'DMAs', number: 3 },
+    { title: 'Sample', number: 4 },
   ])
 
   const { getValueFromLocalStorage, saveValueToLocalStorage } = useLocalStorage()

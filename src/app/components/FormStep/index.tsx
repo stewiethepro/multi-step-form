@@ -1,26 +1,26 @@
 import { useFormStep } from "../../hooks/use-form-step";
 
-import { YourInfo } from "./YourInfo";
-import { Plans } from "./Plans";
-import { AddOns } from "./AddOns";
-import { Summary } from "./Summary";
+import { Brand } from "./Brand";
+import { States } from "./States";
+import { DMAs } from "./DMAs";
+import { Sample } from "./Sample";
 
 const steps = [
   {
     step: 1,
-    component: YourInfo
+    component: Brand
   },
   {
     step: 2,
-    component: Plans
+    component: States
   },
   {
     step: 3,
-    component: AddOns
+    component: DMAs
   },
   {
     step: 4,
-    component: Summary
+    component: Sample
   }
 ]
 
@@ -34,4 +34,4 @@ export function FormStep() {
       {step && step.component()}
     </div>
   )
-} 
+}
