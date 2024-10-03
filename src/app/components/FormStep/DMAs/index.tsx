@@ -8,6 +8,7 @@ import Form from "../../Form";
 import { Footer } from "../../Footer";
 import { MultiSelect } from "../../Form/MultiSelect";
 
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 const supabase = createClient(supabaseUrl, supabaseKey)
@@ -32,10 +33,16 @@ async function fetchDMAsForStates(states: string[]): Promise<DMA[]> {
   return data;
 }
 
+interface DMAScore {
+  dma: string;
+  score: number;
+}
+
 export function DMAs() {
-  const { statesField, dmasField, dispatchDMAsField } = useForm();
+  const { statesField, dmasField, dispatchDMAsField, getAllFormData } = useForm();
   const { handleNextStep, handlePreviousStep } = useFormStep();
   const [availableDMAs, setAvailableDMAs] = useState<DMA[]>([]);
+  const [dmaScores, setDMAScores] = useState<DMAScore[]>([]);
 
   useEffect(() => {
     async function loadDMAs() {
@@ -45,9 +52,28 @@ export function DMAs() {
     loadDMAs();
   }, [statesField.value]);
 
+  useEffect(() => {
+    // Initialize scores for newly selected DMAs
+    const newScores = dmasField.value
+      .filter(dma => !dmaScores.some(score => score.dma === dma))
+      .map(dma => ({ dma, score: 0 }));
+    setDMAScores(prev => [...prev, ...newScores]);
+
+    // Remove scores for deselected DMAs
+    setDMAScores(prev => prev.filter(score => dmasField.value.includes(score.dma)));
+  }, [dmasField.value]);
+
+  function handleScoreChange(dma: string, score: number) {
+    setDMAScores(prev => prev.map(item => item.dma === dma ? { ...item, score } : item));
+  }
+
   function validateForm() {
     if (dmasField.value.length === 0) {
       dispatchDMAsField({ type: ACTIONS.SET_ERROR, errorMessage: 'Please select at least one DMA' });
+      return false;
+    }
+    if (dmaScores.some(score => score.score === 0)) {
+      dispatchDMAsField({ type: ACTIONS.SET_ERROR, errorMessage: 'Please score all selected DMAs' });
       return false;
     }
     return true;
@@ -56,6 +82,10 @@ export function DMAs() {
   function handleGoForwardStep() {
     const isValid = validateForm();
     if (isValid) {
+      // Save DMA scores to form context
+      dispatchDMAsField({ type: ACTIONS.SET_SCORES, scores: dmaScores });
+      // Log all form data
+      console.log('Form data after DMAs step:', getAllFormData());
       handleNextStep();
     }
   }
@@ -97,13 +127,30 @@ export function DMAs() {
         {/* Add this section to display selected DMAs grouped by state */}
         {dmasField.value.length > 0 && (
           <div className="mt-5">
-            <h3 className="text-lg font-semibold mb-2">Selected DMAs by State:</h3>
+            <h3 className="text-lg font-semibold mb-2">Score Selected DMAs:</h3>
             {Object.entries(groupSelectedDMAsByState()).map(([state, dmas]) => (
-              <div key={state} className="mb-2">
+              <div key={state} className="mb-4">
                 <h4 className="font-medium">{state}:</h4>
-                <ul className="list-disc list-inside pl-4">
+                <ul className="list-none pl-4">
                   {dmas.map(dma => (
-                    <li key={dma}>{dma}</li>
+                    <li key={dma} className="mb-2">
+                      <span>{dma}</span>
+                      <div className="mt-1">
+                        {[1, 2, 3, 4, 5].map(score => (
+                          <button
+                            key={score}
+                            className={`mr-2 px-3 py-1 rounded ${
+                              dmaScores.find(item => item.dma === dma)?.score === score
+                                ? 'bg-blue-500 text-white'
+                                : 'bg-gray-200'
+                            }`}
+                            onClick={() => handleScoreChange(dma, score)}
+                          >
+                            {score}
+                          </button>
+                        ))}
+                      </div>
+                    </li>
                   ))}
                 </ul>
               </div>

@@ -8,7 +8,7 @@ import Form from "../../Form";
 import { Footer } from "../../Footer";
 
 export function Brand() {
-  const { brandField, dispatchBrandField } = useForm();
+  const { brandField, dispatchBrandField, getAllFormData } = useForm();
   const { handleNextStep } = useFormStep();
 
   function validateForm() {
@@ -22,6 +22,8 @@ export function Brand() {
   function handleGoForwardStep() {
     const isValid = validateForm();
     if (isValid) {
+      // Log all form data
+      console.log('Form data after DMAs step:', getAllFormData());
       handleNextStep();
     }
   }

@@ -3,9 +3,15 @@ import { useFormStep } from "../../../hooks/use-form-step";
 import { useForm } from "../../../hooks/use-form";
 import { ACTIONS } from "../../../contexts/form";
 import { Listbox } from "@headlessui/react";
+import { createClient } from '@supabase/supabase-js'
 
 import Form from "../../Form";
 import { Footer } from "../../Footer";
+
+// Initialize Supabase client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 const SAMPLE_OPTIONS = Array.from({ length: 23 }, (_, i) => ({
   value: (4000 + i * 500).toString(),
@@ -13,7 +19,7 @@ const SAMPLE_OPTIONS = Array.from({ length: 23 }, (_, i) => ({
 }));
 
 export function Sample() {
-  const { sampleField, dispatchSampleField } = useForm();
+  const { sampleField, dispatchSampleField, getAllFormData } = useForm();
   const { handleNextStep, handlePreviousStep } = useFormStep();
 
   function validateForm() {
@@ -24,9 +30,40 @@ export function Sample() {
     return true;
   }
 
+  async function submitForm() {
+    const formData = getAllFormData();
+    
+    const submissionData = {
+      states: formData.states,
+      dmas: formData.dmas,
+      dma_scores: formData.dmaScores.map(score => `${score.dma}:${score.score}`),
+      sample: parseInt(formData.sample),
+    };
+
+    try {
+      const { data, error } = await supabase
+        .from('submissions')
+        .insert([submissionData]);
+
+      if (error) throw error;
+
+      console.log('Submission successful:', data);
+      // Here you can add logic for what happens after successful submission
+      // For example, showing a success message or redirecting to a thank you page
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      // Here you can add logic for handling errors
+      // For example, showing an error message to the user
+    }
+  }
+
   function handleGoForwardStep() {
     const isValid = validateForm();
     if (isValid) {
+      submitForm();
+      // You might want to wait for the submission to complete before moving to the next step
+      // For now, we'll just log the form data and move to the next step
+      console.log('Form data after Sample step:', getAllFormData());
       handleNextStep();
     }
   }

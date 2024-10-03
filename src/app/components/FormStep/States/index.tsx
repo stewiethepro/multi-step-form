@@ -7,6 +7,7 @@ import Form from "../../Form";
 import { Footer } from "../../Footer";
 import { MultiSelect } from "../../Form/MultiSelect";
 
+
 const US_STATES = [
   "Alabama", "Alaska", "Arizona", "Arkansas", "California",
   "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
@@ -21,7 +22,7 @@ const US_STATES = [
 ];
 
 export function States() {
-  const { statesField, dispatchStatesField } = useForm();
+  const { statesField, dispatchStatesField, getAllFormData } = useForm();
   const { handleNextStep, handlePreviousStep } = useFormStep();
 
   function validateForm() {
@@ -35,6 +36,8 @@ export function States() {
   function handleGoForwardStep() {
     const isValid = validateForm();
     if (isValid) {
+      // Log all form data
+      console.log('Form data after States step:', getAllFormData());
       handleNextStep();
     }
   }

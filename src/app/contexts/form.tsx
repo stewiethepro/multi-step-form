@@ -40,7 +40,8 @@ export const FormContext = createContext({
 export const ACTIONS = {
   SET_VALUE: 'SET_VALUE',
   SET_ERROR: 'SET_ERROR',
-  CLEAR_ERROR: 'CLEAR_ERROR'
+  CLEAR_ERROR: 'CLEAR_ERROR',
+  SET_SCORES: 'SET_SCORES',
 }
 
 function handleFormState(
@@ -67,6 +68,14 @@ function handleFormState(
         error: '',
         hasError: false
       }
+      case ACTIONS.SET_SCORES:
+      return {
+        ...state,
+        value: state.value,
+        scores: action.scores,
+        hasError: false,
+        errorMessage: '',
+      };
     default:
       return state
   }
