@@ -4,6 +4,7 @@ import { useForm } from "../../../hooks/use-form";
 import { ACTIONS } from "../../../contexts/form";
 import { Listbox } from "@headlessui/react";
 import { createClient } from '@supabase/supabase-js'
+import { calculateSampleRecommendations } from '../../../util/sampleRecommendations.tsx';
 
 import Form from "../../Form";
 import { Footer } from "../../Footer";
@@ -33,21 +34,30 @@ export function Sample() {
   async function submitForm() {
     const formData = getAllFormData();
     
-    const submissionData = {
+    const formSubmissionData = {
       states: formData.states,
       dmas: formData.dmas,
-      dma_scores: formData.dmaScores.map(score => `${score.dma}:${score.score}`),
+      dma_scores: formData.dmaScores.map((score: { dma: string, state_name: string, score: number }) => ({
+        state_name: score.state_name,
+        dma: score.dma,
+        score: score.score
+      })),
       sample: parseInt(formData.sample),
     };
 
     try {
       const { data, error } = await supabase
         .from('submissions')
-        .insert([submissionData]);
+        .insert([formSubmissionData]);
 
       if (error) throw error;
 
       console.log('Submission successful:', data);
+
+      // Calculate sample recommendations
+      const recommendationData = await calculateSampleRecommendations(formSubmissionData, supabase);
+      console.log('Sample recommendations:', recommendationData);
+
       // Here you can add logic for what happens after successful submission
       // For example, showing a success message or redirecting to a thank you page
     } catch (error) {

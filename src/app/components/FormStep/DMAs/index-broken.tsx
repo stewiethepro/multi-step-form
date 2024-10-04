@@ -23,7 +23,7 @@ interface DMA {
 async function fetchDMAsForStates(states: string[]): Promise<DMA[]> {
   const { data, error } = await supabase
     .from('dmas')
-    .select('*')
+    .select('dma_label, state_name')
     .in('state_name', states);
 
   if (error) {
@@ -36,7 +36,7 @@ async function fetchDMAsForStates(states: string[]): Promise<DMA[]> {
 // Update the DMAScore interface
 interface DMAScore {
   dma: string;
-  state_name: string;
+  state: string;
   score: number;
 }
 
@@ -60,7 +60,7 @@ export function DMAs() {
       .filter(dma => !dmaScores.some(score => score.dma === dma))
       .map(dma => {
         const dmaInfo = availableDMAs.find(d => d.dma_label === dma);
-        return { dma, state_name: dmaInfo?.state_name || '', score: 0 };
+        return { dma, state: dmaInfo ? dmaInfo.state_name : '', score: 0 };
       });
     setDMAScores(prev => [...prev, ...newScores]);
 
@@ -69,9 +69,7 @@ export function DMAs() {
   }, [dmasField.value, availableDMAs]);
 
   function handleScoreChange(dma: string, score: number) {
-    setDMAScores(prev => prev.map(item => 
-      item.dma === dma ? { ...item, score } : item
-    ));
+    setDMAScores(prev => prev.map(item => item.dma === dma ? { ...item, score } : item));
   }
 
   function validateForm() {
