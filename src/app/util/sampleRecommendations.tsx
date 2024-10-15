@@ -49,9 +49,9 @@ export async function calculateSampleRecommendations(
 
   // Query Supabase for DMAs
   const { data: supabaseDmas, error } = await supabase
-    .from('dmas')
-    .select('*')
-    .in('state_name', formSubmissionData.states);
+  .from('dmas')
+  .select('*')
+  .in('state_name', formSubmissionData.states);
 
   if (error) {
     console.error('Error fetching DMAs from Supabase:', error);
@@ -61,9 +61,13 @@ export async function calculateSampleRecommendations(
   console.log('Supabase DMAs:', supabaseDmas);
 
   // Process Supabase DMAs
-  supabaseDmas.forEach((dma) => {
-    if (recommendation_data[dma.state_name]) {
+supabaseDmas.forEach((dma) => {
+    console.log('Processing DMA:', dma.state_name, dma.dma);
+    if (recommendation_data[dma.state_name] && formSubmissionData.dmas.includes(dma.dma_label)) {
       recommendation_data[dma.state_name].respondent_utilization += dma.dma_prop;
+      console.log(`Updated ${dma.state_name} respondent_utilization for DMA ${dma.dma_label}:`, recommendation_data[dma.state_name].respondent_utilization);
+    } else {
+      console.log(`Skipped DMA ${dma.dma_label} for ${dma.state_name} as it's not in selected DMAs`);
     }
   });
 

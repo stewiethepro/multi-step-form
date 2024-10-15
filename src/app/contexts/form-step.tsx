@@ -28,6 +28,7 @@ export const FormStepProvider = ({ children }: FormStepProviderProps) => {
     { title: 'States', number: 2 },
     { title: 'DMAs', number: 3 },
     { title: 'Sample', number: 4 },
+    { title: 'Recommendations', number: 5 },
   ])
 
   const { getValueFromLocalStorage, saveValueToLocalStorage } = useLocalStorage()

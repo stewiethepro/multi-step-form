@@ -20,7 +20,7 @@ const SAMPLE_OPTIONS = Array.from({ length: 23 }, (_, i) => ({
 }));
 
 export function Sample() {
-  const { sampleField, dispatchSampleField, getAllFormData } = useForm();
+  const { sampleField, dispatchSampleField, getAllFormData, setRecommendations } = useForm();
   const { handleNextStep, handlePreviousStep } = useFormStep();
 
   function validateForm() {
@@ -56,14 +56,15 @@ export function Sample() {
 
       // Calculate sample recommendations
       const recommendationData = await calculateSampleRecommendations(formSubmissionData, supabase);
-      console.log('Sample recommendations:', recommendationData);
+      
+      // Store recommendations in form context
+      setRecommendations(recommendationData);
 
-      // Here you can add logic for what happens after successful submission
-      // For example, showing a success message or redirecting to a thank you page
+      // Navigate to the recommendations step
+      handleNextStep();
     } catch (error) {
       console.error('Error submitting form:', error);
       // Here you can add logic for handling errors
-      // For example, showing an error message to the user
     }
   }
 
@@ -71,10 +72,7 @@ export function Sample() {
     const isValid = validateForm();
     if (isValid) {
       submitForm();
-      // You might want to wait for the submission to complete before moving to the next step
-      // For now, we'll just log the form data and move to the next step
-      console.log('Form data after Sample step:', getAllFormData());
-      handleNextStep();
+      // Remove the handleNextStep() call here, as we'll navigate in the submitForm function
     }
   }
 

@@ -4,6 +4,7 @@ import { Brand } from "./Brand";
 import { States } from "./States";
 import { DMAs } from "./DMAs";
 import { Sample } from "./Sample";
+import { Recommendations } from "./Recommendations"; // Import the new component
 
 const steps = [
   {
@@ -21,6 +22,10 @@ const steps = [
   {
     step: 4,
     component: Sample
+  },
+  {
+    step: 5,
+    component: Recommendations // Add the new step
   }
 ]
 

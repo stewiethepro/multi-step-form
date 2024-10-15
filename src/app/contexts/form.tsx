@@ -23,6 +23,9 @@ type FormContextData = {
   sampleField: Field;
   dispatchSampleField: React.Dispatch<any>;
   clearForm: () => void;
+  recommendations: Record<string, number>;
+  setRecommendations: (data: Record<string, number>) => void;
+  getAllFormData: () => Record<string, any>;
 }
 
 export const FormContext = createContext({
@@ -34,7 +37,10 @@ export const FormContext = createContext({
   dispatchDMAsField: () => {},
   sampleField: initialState,
   dispatchSampleField: () => {},
-  clearForm: () => {}
+  clearForm: () => {},
+  recommendations: {},
+  setRecommendations: () => {},
+  getAllFormData: () => ({}),
 } as FormContextData);
 
 export const ACTIONS = {
@@ -95,6 +101,7 @@ export const FormProvider = ({ children }: FormProviderProps) => {
   const [statesField, dispatchStatesField] = useReducer(handleFormState, { ...initialState, value: [] });
   const [dmasField, dispatchDMAsField] = useReducer(handleFormState, { ...initialState, value: [] });
   const [sampleField, dispatchSampleField] = useReducer(handleFormState, initialState);
+  const [recommendations, setRecommendations] = useState<Record<string, number>>({});
 
   const { removeValueFromLocalStorage } = useLocalStorage();
 
@@ -110,6 +117,13 @@ export const FormProvider = ({ children }: FormProviderProps) => {
     dispatchSampleField({ type: ACTIONS.SET_VALUE, value: '' });
   }
 
+  const getAllFormData = () => ({
+    brand: brandField.value,
+    states: statesField.value,
+    dmas: dmasField.value,
+    sample: sampleField.value,
+  });
+
   const value = {
     brandField,
     dispatchBrandField,
@@ -119,7 +133,10 @@ export const FormProvider = ({ children }: FormProviderProps) => {
     dispatchDMAsField,
     sampleField,
     dispatchSampleField,
-    clearForm
+    clearForm,
+    recommendations,
+    setRecommendations,
+    getAllFormData,
   }
 
   return (
