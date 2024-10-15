@@ -57,7 +57,7 @@ export function AddOnOption({ addOn, isSelected, handleSelectAddon, handleUnsele
         </Checkbox.Indicator>
       </Checkbox.Root>
       <div className="flex flex-col gap-1 items-start">
-        <strong className="text-sm text-denim font-medium sm:text-base">{addOn.title}</strong>
+        <strong className="text-sm text-purple800 font-medium sm:text-base">{addOn.title}</strong>
         <span className="text-xs text-grey font-normal sm:text-sm">{addOn.description}</span>
       </div>
       <span className="text-xs text-purple font-normal leading-5 ml-auto sm:text-sm ">

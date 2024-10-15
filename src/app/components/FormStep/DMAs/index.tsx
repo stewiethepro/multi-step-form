@@ -148,8 +148,8 @@ export function DMAs() {
                             key={score}
                             className={`mr-2 px-3 py-1 rounded ${
                               dmaScores.find(item => item.dma === dma)?.score === score
-                                ? 'bg-blue-500 text-white'
-                                : 'bg-gray-200'
+                                ? 'bg-purple600 text-white'
+                                : 'bg-purple200'
                             }`}
                             onClick={() => handleScoreChange(dma, score)}
                           >

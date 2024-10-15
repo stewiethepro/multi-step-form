@@ -89,7 +89,7 @@ export function Sample() {
             onChange={(value: string) => dispatchSampleField({ type: ACTIONS.SET_VALUE, value })}
           >
             <Listbox.Label className="sr-only">Sample Size</Listbox.Label>
-            <Listbox.Button className="w-full border rounded-md py-2 px-3 text-left focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <Listbox.Button className="w-full bg-white border rounded-md py-2 px-3 text-left focus:outline-none focus:ring-2 focus:ring-purple600">
               {sampleField.value || "Select a sample size"}
             </Listbox.Button>
             <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
@@ -98,7 +98,7 @@ export function Sample() {
                   key={option.value}
                   value={option.value}
                   className={({ active }) =>
-                    `${active ? 'text-white bg-blue-600' : 'text-gray-900'}
+                    `${active ? 'text-white bg-purple600' : 'text-gray-900'}
                     cursor-default select-none relative py-2 pl-10 pr-4`
                   }
                 >
@@ -108,7 +108,7 @@ export function Sample() {
                         {option.label}
                       </span>
                       {selected && (
-                        <span className={`${active ? 'text-white' : 'text-blue-600'} absolute inset-y-0 left-0 flex items-center pl-3`}>
+                        <span className={`${active ? 'text-white' : 'text-purple600'} absolute inset-y-0 left-0 flex items-center pl-3`}>
                           ✓
                         </span>
                       )}

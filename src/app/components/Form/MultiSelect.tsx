@@ -30,7 +30,7 @@ export function MultiSelect({ label, options, selectedOptions, onChange, errorMe
       }}>
         <label className="block text-sm font-medium text-gray-700">{label}</label>
         <div className="relative mt-1">
-          <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+          <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 focus:ring-purple600 sm:text-sm">
             <Combobox.Input
               className={`w-full border ${hasError ? 'border-red-500' : 'border-gray-300'} rounded-md py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0`}
               displayValue={(selected: string[]) => selected.join(', ')}
@@ -61,7 +61,7 @@ export function MultiSelect({ label, options, selectedOptions, onChange, errorMe
                     key={option}
                     className={({ active }) =>
                       `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                        active ? 'bg-teal-600 text-white' : 'text-gray-900'
+                        active ? 'bg-purple600 text-white' : 'text-gray-900'
                       }`
                     }
                     value={option}

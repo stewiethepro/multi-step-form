@@ -12,16 +12,16 @@ export function Footer({ handleGoBack, handleGoForwardStep }: FooterProps) {
   const isLastStep = currentStep === numberOfSteps;
 
   return (
-    <footer className="p-4 bg-white flex justify-between items-center">
+    <footer className="p-4 bg-neutral flex justify-between items-center">
       <button
         onClick={handleGoBack}
-        className={`border-none text-sm text-grey font-medium ${currentStep === 1 ? 'invisible' : 'visible'} sm:text-base`}
+        className={`${currentStep === 1 ? 'invisible' : 'visible'} bg-purple200 py-3 px-4 rounded text-sm text-purple800 font-medium sm:text-base`}
       >
         Go back
       </button>
       <button
         onClick={handleGoForwardStep}
-        className={`${isLastStep ? 'bg-purple' : 'bg-denim'} py-3 px-4 rounded text-sm text-white font-medium sm:text-base`}
+        className={`${isLastStep ? 'bg-purple600' : 'bg-purple600'} py-3 px-4 rounded text-sm text-purple100 font-medium sm:text-base`}
       >
         {isLastStep ? 'Confirm' : 'Next step'}
       </button>

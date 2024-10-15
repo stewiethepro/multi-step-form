@@ -13,7 +13,7 @@ export function PostConfirmation() {
             height={56}
           />
 
-          <strong className="mt-6 text-2xl	text-denim font-bold">
+          <strong className="mt-6 text-2xl	text-purple800 font-bold">
             Thank you!
           </strong>
 

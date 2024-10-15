@@ -44,7 +44,7 @@ export function Brand() {
               placeholder="Enter your brand name"
               value={brandField.value}
               onChange={(e) => dispatchBrandField({ type: ACTIONS.SET_VALUE, value: e.target.value })}
-              className="w-full px-3 py-2 border rounded-md data-[focus]:border-blue-500 data-[invalid]:border-red-500"
+              className="w-full px-3 py-2 border rounded-md data-[focus]:ring-purple600 data-[invalid]:border-red-500"
               invalid={brandField.hasError}
             />
             {brandField.errorMessage && (

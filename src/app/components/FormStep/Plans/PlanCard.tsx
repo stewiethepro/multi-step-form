@@ -35,7 +35,7 @@ export function PlanCard({ plan, icon, isSelected, handleSelectPlan, freeTrialDe
         height={40}
       />
       <div className="flex flex-col gap-1 items-start">
-        <strong className="text-base font-medium text-denim">
+        <strong className="text-base font-medium text-purple800">
           {plan.name}
         </strong>
 
@@ -44,7 +44,7 @@ export function PlanCard({ plan, icon, isSelected, handleSelectPlan, freeTrialDe
         </span>
 
         {(isYearly && freeTrialDescription) && (
-          <span className="hidden text-xs font-normal text-denim sm:block">
+          <span className="hidden text-xs font-normal text-purple800 sm:block">
             {freeTrialDescription}
           </span>
         )}

@@ -9,7 +9,7 @@ interface SwitchProps {
 export function Switch({ isYearly, handlePlanTypeChange }: SwitchProps) {
   return (
     <Fragment>
-      <span className={`text-sm font-normal ${isYearly ? 'text-grey' : 'text-denim'} duration-100`}>
+      <span className={`text-sm font-normal ${isYearly ? 'text-grey' : 'text-purple800'} duration-100`}>
         Monthly
       </span>
 
@@ -17,7 +17,7 @@ export function Switch({ isYearly, handlePlanTypeChange }: SwitchProps) {
         checked={isYearly}
         onCheckedChange={handlePlanTypeChange}
         className={`
-              w-10 h-5 p-1 relative bg-denim rounded-full
+              w-10 h-5 p-1 relative bg-purple800 rounded-full
             `}
       >
         <RadixSwitch.Thumb
@@ -28,7 +28,7 @@ export function Switch({ isYearly, handlePlanTypeChange }: SwitchProps) {
         />
       </RadixSwitch.Root>
 
-      <span className={`text-sm font-normal ${isYearly ? 'text-denim' : 'text-grey'} duration-100`}>
+      <span className={`text-sm font-normal ${isYearly ? 'text-purple800' : 'text-grey'} duration-100`}>
         Yearly
       </span>
     </Fragment>

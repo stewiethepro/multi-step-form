@@ -14,7 +14,7 @@ export function AddOnItem({ title, price, isYearly }: AddOnItemProps) {
       <strong className="text-sm leading-5 font-normal text-grey">
         {title}
       </strong>
-      <span className="text-sm leading-5 font-normal text-denim">
+      <span className="text-sm leading-5 font-normal text-purple800">
         {`+${formattedPrice}`}
       </span>
     </div>
